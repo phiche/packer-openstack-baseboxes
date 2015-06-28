@@ -1,0 +1,35 @@
+{
+  "_comment": "This build produces a yum updated box ready for ansible provisioning",
+  "_comment": "A packer bug prevents this template working with versions under v0.8.0",
+  "min_packer_version": "v0.8.0",
+  "_comment": "The variables below need to be the uuids in openstack",
+  "variables": {
+    "os_external_network": "{{ env `OS_EXTERNAL_NETWORK` }}",
+    "os_internal_network": "{{ env `OS_INTERNAL_NETWORK` }}",
+    "ubuntu_1404": "{{ env `UBUNTU_1404` }}",
+    "m1_small": "{{ env `M1_SMALL` }}",
+    "base_image_name": "ubuntu-14.04-ansible-base"
+  },
+  "_comment": "The ssh_pty=true communicator configuration will depend on requiretty in sudoers",
+  "builders": [
+    {
+      "type": "openstack",
+      "source_image": "{{ user `ubuntu_1404` }}",
+      "image_name": "{{ user `base_image_name` }}",
+      "flavor": "{{ user `m1_small` }}",
+      "networks": "{{ user `os_internal_network` }}",
+      "floating_ip_pool": "{{ user `os_external_network` }}",
+      "use_floating_ip": "true",
+      "ssh_username": "ubuntu",
+      "communicator": "ssh",
+      "ssh_pty": "true"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": "scripts/ubuntu-ansible-base.sh"
+    }
+  ],
+  "_comment": "Unfortunately still no openstack post-processor for packer :("
+}
