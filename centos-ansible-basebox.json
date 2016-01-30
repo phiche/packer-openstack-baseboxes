@@ -30,6 +30,5 @@
       "type": "shell",
       "scripts": "scripts/centos-ansible-base.sh"
     }
-  ],
-  "_comment": "Unfortunately still no openstack post-processor for packer :("
+  ]
 }
