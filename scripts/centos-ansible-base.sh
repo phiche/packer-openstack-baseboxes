@@ -13,7 +13,7 @@ do
 done
 
 echo "Install ansible so it can run locally"
-sudo yum -y install ansible libselinux-python
+sudo yum -y install ansible libselinux-python ntpd
 
 echo "Set the local time to CET and turn on ntpd"
 sudo ln -sf /usr/share/zoneinfo/CET /etc/localtime
